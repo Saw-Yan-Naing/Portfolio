@@ -18,6 +18,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -47,7 +48,6 @@ fun App() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    backgroundColor = Color.Blue.copy(alpha = .3f),
                     title = {
                         Text(
                             text = buildAnnotatedString {
@@ -84,7 +84,11 @@ fun App() {
         ) {
             LazyColumn(
                 state = lazyListState,
-                modifier = Modifier.padding(top = it.calculateTopPadding())
+                modifier = Modifier.padding(top = it.calculateTopPadding()).drawBehind {
+                    drawRect(
+                        color = Color.White
+                    )
+                }
             ) {
                 item(
                     key = Destination.Intro.name
