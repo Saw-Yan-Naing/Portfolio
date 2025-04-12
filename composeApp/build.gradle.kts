@@ -37,12 +37,14 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-//            implementation(libs.androidx.material3)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
             //Window Size class
             implementation("org.jetbrains.compose.material3:material3-window-size-class:1.7.3")
+
+            //Constraints Layout
+            implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.5.1")
         }
     }
 }

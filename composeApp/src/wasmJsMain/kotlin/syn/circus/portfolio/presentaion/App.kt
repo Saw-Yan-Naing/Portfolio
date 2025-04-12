@@ -1,5 +1,8 @@
 package syn.circus.portfolio.presentaion
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +18,8 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -30,7 +35,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import syn.circus.portfolio.domain.Destination
-import syn.circus.portfolio.presentaion.widget.ActionBarTextButton
+import syn.circus.portfolio.domain.function.check
+import syn.circus.portfolio.presentaion.widget.ContactMe
 import syn.circus.portfolio.presentaion.widget.Intro
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
@@ -79,17 +85,28 @@ fun App() {
                     },
                     actions = {
                         appbarList.map { dest ->
-                            ActionBarTextButton(
-                                modifier = Modifier.padding(horizontal = 5.dp, vertical = 3.dp),
-                                title = dest.name,
-                                onClick = {
-                                    scope.launch(Dispatchers.Default) {
-                                        lazyListState.animateScrollToItem(
-                                            appbarList.indexOf(dest)
-                                        )
+                            val interactionSource = remember {
+                                MutableInteractionSource()
+                            }
+                            val isHovered by interactionSource.collectIsHoveredAsState()
+                            Text(
+                                dest.name,
+                                modifier = Modifier.padding(
+                                    horizontal = 5.dp, vertical = 3.dp
+                                ).clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null
+                                ) {
+                                    scope.launch(Dispatchers.Main) {
+                                        lazyListState.animateScrollToItem(appbarList.indexOf(dest))
                                     }
                                 },
-                                showUnderLine = dest.name == appbarList[firstItem].name,
+                                style = TextStyle(
+                                    color = (isHovered check { Color.Blue }) ?: Color.Black,
+                                    fontSize = 14.sp,
+                                    fontWeight = (isHovered check { FontWeight.Bold })
+                                        ?: FontWeight.SemiBold
+                                ), textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -111,7 +128,7 @@ fun App() {
                     ) {
                         Intro(
                             smallScreen = smallDevice,
-                            )
+                        )
                     }
 
                     item(
@@ -153,18 +170,10 @@ fun App() {
                     item(
                         key = Destination.Contact.name
                     ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
-                        )
+                        ContactMe()
                     }
                 }
             }
         }
-
-
     }
 }
