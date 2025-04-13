@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import syn.circus.portfolio.domain.function.check
+import syn.circus.utils.function.check
 
 @Composable
 fun LazyItemScope.Intro(

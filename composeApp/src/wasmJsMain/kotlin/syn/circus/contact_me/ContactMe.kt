@@ -1,38 +1,47 @@
-package syn.circus.portfolio.presentaion.widget
+package syn.circus.contact_me
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import syn.circus.contact_me.widget.ContactInfoRow
+import syn.circus.portfolio.presentaion.LocalScreenWidth
+import syn.circus.utils.function.calculateTextSize
 
 @Composable
-fun LazyItemScope.ContactMe(
+fun ContactMe(
     modifier: Modifier = Modifier,
 ) {
+    val screenSize = LocalScreenWidth.current
 
-    val screenWidth = remember {
-        mutableStateOf(0)
+    val contactMeRow = mapOf(
+        "Email" to "syannaing76@gmail.com",
+        "Location" to "Thingangyun Township,Yangon,Myanmar",
+        "Phone" to "+959897145711"
+    )
+
+    fun getIcon(key: String) = when (key) {
+        "Email" -> Icons.Rounded.Email
+        "Location" -> Icons.Rounded.LocationOn
+        else -> Icons.Rounded.Phone
     }
+    
     Column(
-        modifier = modifier.onGloballyPositioned {
-            screenWidth.value = it.size.width
-        }.fillParentMaxWidth(),
+        modifier = modifier.wrapContentHeight(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
@@ -42,7 +51,7 @@ fun LazyItemScope.ContactMe(
                 .padding(bottom = 10.dp),
             style = TextStyle(
                 color = Color.Black,
-                fontSize = (screenWidth.value / 35).sp,
+                fontSize = (30).calculateTextSize(screenSize).sp,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -52,7 +61,7 @@ fun LazyItemScope.ContactMe(
             modifier = Modifier.padding(5.dp).padding(bottom = 10.dp),
             style = TextStyle(
                 color = Color.LightGray,
-                fontSize = (screenWidth.value / 40).sp
+                fontSize = (25).calculateTextSize(screenSize).sp,
             )
         )
 
@@ -61,37 +70,20 @@ fun LazyItemScope.ContactMe(
             modifier = Modifier.padding(5.dp).padding(bottom = 10.dp),
             style = TextStyle(
                 color = Color.LightGray,
-                fontSize = (screenWidth.value / 70).sp
+                fontSize = (25).calculateTextSize(screenSize).sp,
             )
         )
 
-
-        ContactInfoRow(
-            modifier = Modifier.fillParentMaxWidth().padding(10.dp),
-            icon = Icons.Rounded.Email,
-            contactTitle = "Email",
-            contactInfo = "syannaing76@gmail.com",
-            onClick = {
-
-            }
-        )
-        ContactInfoRow(
-            modifier = Modifier.fillParentMaxWidth().padding(10.dp),
-            icon = Icons.Rounded.LocationOn,
-            contactTitle = "Location",
-            contactInfo = "Thingangyun Township, Yangon ,Myanmar",
-            onClick = {
-
-            }
-        )
-        ContactInfoRow(
-            modifier = Modifier.fillParentMaxWidth().padding(10.dp),
-            icon = Icons.Rounded.Phone,
-            contactTitle = "Phone",
-            contactInfo = "+959897145711",
-            onClick = {
-
-            }
-        )
+        contactMeRow.forEach { (key, value) ->
+            ContactInfoRow(
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                icon = getIcon(key),
+                contactTitle = key,
+                contactInfo = value,
+                screenSize = screenSize,
+                onClick = {
+                }
+            )
+        }
     }
 }

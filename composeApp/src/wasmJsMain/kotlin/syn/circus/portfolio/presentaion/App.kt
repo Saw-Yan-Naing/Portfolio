@@ -17,13 +17,17 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -32,17 +36,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import syn.circus.portfolio.domain.Destination
-import syn.circus.portfolio.domain.function.check
-import syn.circus.portfolio.presentaion.widget.ContactMe
+import syn.circus.contact_me.ContactMe
 import syn.circus.portfolio.presentaion.widget.Intro
+import syn.circus.utils.domain.Destination
+import syn.circus.utils.function.check
+
+val LocalScreenWidth = staticCompositionLocalOf {
+    0
+}
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
+
     MaterialTheme {
+
         val screenSize = calculateWindowSizeClass()
         val smallDevice = screenSize.widthSizeClass == WindowWidthSizeClass.Compact
         val appbarList = Destination.Body.getAppBarList()
@@ -50,127 +59,142 @@ fun App() {
         val firstItem = lazyListState.firstVisibleItemIndex
         val scope = rememberCoroutineScope()
 
-        LaunchedEffect(firstItem) {
-            println(appbarList[firstItem].name)
+        val screenWidth = remember {
+            mutableStateOf(0)
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.White
-                    ),
-                    title = {
-                        Text(
-                            text = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = Color.Black, fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                    )
-                                ) {
-                                    append("Port")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = Color.Blue, fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                    )
-                                ) {
-                                    append("Folio")
-                                }
-                            },
-                            textAlign = TextAlign.Start,
-                        )
-                    },
-                    actions = {
-                        appbarList.map { dest ->
-                            val interactionSource = remember {
-                                MutableInteractionSource()
-                            }
-                            val isHovered by interactionSource.collectIsHoveredAsState()
+        LaunchedEffect(lazyListState) {
+            println("Lazy list state -> ${lazyListState.firstVisibleItemIndex}")
+        }
+
+        CompositionLocalProvider(
+            LocalScreenWidth provides screenWidth.value
+        ) {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.White
+                        ),
+                        title = {
                             Text(
-                                dest.name,
-                                modifier = Modifier.padding(
-                                    horizontal = 5.dp, vertical = 3.dp
-                                ).clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null
-                                ) {
-                                    scope.launch(Dispatchers.Main) {
-                                        lazyListState.animateScrollToItem(appbarList.indexOf(dest))
+                                text = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.Black, fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    ) {
+                                        append("Port")
+                                    }
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color.Blue, fontSize = 16.sp,
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    ) {
+                                        append("Folio")
                                     }
                                 },
-                                style = TextStyle(
-                                    color = (isHovered check { Color.Blue }) ?: Color.Black,
-                                    fontSize = 14.sp,
-                                    fontWeight = (isHovered check { FontWeight.Bold })
-                                        ?: FontWeight.SemiBold
-                                ), textAlign = TextAlign.Center
+                                textAlign = TextAlign.Start,
                             )
+                        },
+                        actions = {
+                            appbarList.map { dest ->
+                                val interactionSource = remember {
+                                    MutableInteractionSource()
+                                }
+                                val isHovered by interactionSource.collectIsHoveredAsState()
+                                Text(
+                                    dest.name,
+                                    modifier = Modifier.padding(
+                                        horizontal = 5.dp, vertical = 3.dp
+                                    ).clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null
+                                    ) {
+                                        scope.launch {
+                                            val index = appbarList.indexOf(dest)
+                                            if (index != -1) { // Ensure the index is valid
+                                                lazyListState.animateScrollToItem(index)
+                                            }
+                                        }
+                                    },
+                                    style = TextStyle(
+                                        color = (isHovered check { Color.Blue }) ?: Color.Black,
+                                        fontSize = 14.sp,
+                                        fontWeight = (isHovered check { FontWeight.Bold })
+                                            ?: FontWeight.SemiBold
+                                    ), textAlign = TextAlign.Center
+                                )
+                            }
                         }
-                    }
-                )
-            }
-        ) {
-            Box(
-                modifier = Modifier.padding(top = it.calculateTopPadding()).drawBehind {
-                    drawRect(
-                        color = Color.White
                     )
                 }
             ) {
-                LazyColumn(
-                    state = lazyListState,
+                Box(
+                    modifier = Modifier
+                        .onGloballyPositioned {
+                            screenWidth.value = it.size.width
+                        }
+                        .padding(top = it.calculateTopPadding()).drawBehind {
+                            drawRect(
+                                color = Color.White
+                            )
+                        }
                 ) {
-                    item(
-                        key = Destination.Intro.name
+                    LazyColumn(
+                        state = lazyListState,
                     ) {
-                        Intro(
-                            smallScreen = smallDevice,
-                        )
-                    }
-
-                    item(
-                        key = Destination.About.name
-                    ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
+                        item(
+                            key = Destination.Intro.name
+                        ) {
+                            Intro(
+                                smallScreen = smallDevice,
                             )
-                        )
-                    }
+                        }
 
-                    item(
-                        key = Destination.Projects.name
-                    ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
+                        item(
+                            key = Destination.About.name
+                        ) {
+                            Text(
+                                appbarList[firstItem].name,
+                                style = TextStyle(
+                                    color = Color.Black,
+                                    fontSize = 16.sp
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    item(
-                        key = Destination.Skills.name
-                    ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
+                        item(
+                            key = Destination.Projects.name
+                        ) {
+                            Text(
+                                appbarList[firstItem].name,
+                                style = TextStyle(
+                                    color = Color.Black,
+                                    fontSize = 16.sp
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    item(
-                        key = Destination.Contact.name
-                    ) {
-                        ContactMe()
+                        item(
+                            key = Destination.Skills.name
+                        ) {
+                            Text(
+                                appbarList[firstItem].name,
+                                style = TextStyle(
+                                    color = Color.Black,
+                                    fontSize = 16.sp
+                                )
+                            )
+                        }
+
+                        item(
+                            key = Destination.Contact.name
+                        ) {
+                            ContactMe()
+                        }
                     }
                 }
             }
