@@ -5,6 +5,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
@@ -39,6 +41,7 @@ import syn.circus.about_me.AboutMe
 import syn.circus.contact_me.ContactMe
 import syn.circus.footer.PortFolioFooter
 import syn.circus.intro.Intro
+import syn.circus.skills.Skills
 import syn.circus.utils.domain.Destination
 import syn.circus.utils.function.check
 
@@ -108,10 +111,11 @@ fun App() {
                                     indication = null
                                 ) {
                                     scope.launch {
-                                        val index = appbarList.indexOf(dest)
-                                        if (index != -1) { // Ensure the index is valid
+                                        val index = Destination.entries.indexOf(dest)
+                                        if (index != -1) {
                                             lazyListState.animateScrollToItem(index)
                                         }
+                                        println("scroll to $index")
                                     }
                                 },
                                 style = TextStyle(
@@ -149,38 +153,27 @@ fun App() {
                         key = Destination.About.name
                     ) {
                         AboutMe(
-                            modifier = Modifier.padding(10.dp)
+                            modifier = Modifier
+                                .wrapContentHeight(
+                                    align = Alignment.CenterVertically
+                                )
                         )
                     }
-
-//                    item(
-//                        key = Destination.Projects.name
-//                    ) {
-//                        Text(
-//                            "appbarList[firstItem].name",
-//                            style = TextStyle(
-//                                color = Color.Black,
-//                                fontSize = 16.sp
-//                            )
-//                        )
-//                    }
 
                     item(
                         key = Destination.Skills.name
                     ) {
-                        Text(
-                            "appbarList[firstItem].name",
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
+                        Skills(
+                            modifier = Modifier.fillParentMaxWidth().fillParentMaxHeight(.8f)
                         )
                     }
 
                     item(
                         key = Destination.Contact.name
                     ) {
-                        ContactMe()
+                        ContactMe(
+                            modifier = Modifier.fillParentMaxHeight(.8f)
+                        )
                     }
 
                     item(

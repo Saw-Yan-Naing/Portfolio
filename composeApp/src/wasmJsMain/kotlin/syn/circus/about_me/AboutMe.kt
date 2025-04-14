@@ -26,7 +26,6 @@ import syn.circus.utils.function.calculateTextSize
 @Composable
 fun AboutMe(
     modifier: Modifier = Modifier,
-    smallScreen: Boolean = false,
 ) {
     val screenWidth by rememberSaveable {
         derivedStateOf {
@@ -36,7 +35,11 @@ fun AboutMe(
     FlowRow(
         modifier = modifier.onGloballyPositioned {
             screenWidth.value = it.size.width
-        },
+        }
+            .padding(
+                horizontal = (10).calculateTextSize(screenWidth.value).dp,
+                vertical = (30).calculateTextSize(screenWidth.value).dp
+            ),
     ) {
         Column(
             modifier = Modifier.weight(1f).align(Alignment.Top),
