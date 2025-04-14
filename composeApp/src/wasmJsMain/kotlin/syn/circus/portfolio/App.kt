@@ -45,10 +45,6 @@ import syn.circus.skills.Skills
 import syn.circus.utils.domain.Destination
 import syn.circus.utils.function.check
 
-val LocalScreenWidth = staticCompositionLocalOf {
-    0
-}
-
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
@@ -172,7 +168,7 @@ fun App() {
                         key = Destination.Contact.name
                     ) {
                         ContactMe(
-                            modifier = Modifier.fillParentMaxHeight(.5f)
+                            modifier = Modifier.fillParentMaxHeight(.8f)
                         )
                     }
 
