@@ -131,7 +131,11 @@ fun LazyItemScope.Intro(
                             modifier = Modifier.wrapContentSize(align = Alignment.Center).padding(
                                 horizontal = 20.dp, vertical = 10.dp
                             ),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = (12).calculateTextSize(screenWidth.value).sp
+                            )
                         )
                     }
                 }

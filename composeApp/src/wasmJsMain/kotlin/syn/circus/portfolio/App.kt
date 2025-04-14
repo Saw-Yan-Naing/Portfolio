@@ -35,6 +35,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import syn.circus.about_me.AboutMe
 import syn.circus.contact_me.ContactMe
 import syn.circus.footer.PortFolioFooter
 import syn.circus.intro.Intro
@@ -147,26 +148,22 @@ fun App() {
                     item(
                         key = Destination.About.name
                     ) {
-                        Text(
-                            "appbarList[firstItem].name",
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
+                        AboutMe(
+                            modifier = Modifier.padding(10.dp)
                         )
                     }
 
-                    item(
-                        key = Destination.Projects.name
-                    ) {
-                        Text(
-                            "appbarList[firstItem].name",
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
+//                    item(
+//                        key = Destination.Projects.name
+//                    ) {
+//                        Text(
+//                            "appbarList[firstItem].name",
+//                            style = TextStyle(
+//                                color = Color.Black,
+//                                fontSize = 16.sp
+//                            )
+//                        )
+//                    }
 
                     item(
                         key = Destination.Skills.name

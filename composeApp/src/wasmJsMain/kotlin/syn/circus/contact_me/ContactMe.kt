@@ -56,23 +56,15 @@ fun ContactMe(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        Text(
-            "Get In Touch",
-            modifier = Modifier.padding(horizontal = 5.dp, vertical = 10.dp)
-                .padding(bottom = 10.dp),
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = (30).calculateTextSize(screenWidth.value).sp,
-                fontWeight = FontWeight.Bold
-            )
-        )
+
 
         Text(
-            "Contact Information ${screenWidth.value}",
+            "Contact Information",
             modifier = Modifier.padding(5.dp).padding(bottom = 10.dp),
             style = TextStyle(
-                color = Color.LightGray,
-                fontSize = (25).calculateTextSize(screenWidth.value).sp,
+                color = Color.Black,
+                fontSize = (20).calculateTextSize(screenWidth.value).sp,
+                fontWeight = FontWeight.Bold
             )
         )
 
@@ -80,8 +72,8 @@ fun ContactMe(
             "Have a project in mind or want to collaborate? Feel free to reach out using the form or my contact details below.",
             modifier = Modifier.padding(5.dp).padding(bottom = 10.dp),
             style = TextStyle(
-                color = Color.LightGray,
-                fontSize = (25).calculateTextSize(screenWidth.value).sp,
+                color = Color.Black.copy(alpha =.5f),
+                fontSize = (16).calculateTextSize(screenWidth.value).sp,
             )
         )
 
