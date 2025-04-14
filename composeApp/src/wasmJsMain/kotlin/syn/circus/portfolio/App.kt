@@ -172,7 +172,7 @@ fun App() {
                         key = Destination.Contact.name
                     ) {
                         ContactMe(
-                            modifier = Modifier.fillParentMaxHeight(.8f)
+                            modifier = Modifier.fillParentMaxHeight(.5f)
                         )
                     }
 
