@@ -11,6 +11,9 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
+//        compilerOptions {
+//            freeCompilerArgs.add("-Xwasm-attach-js-exception")
+//        }
         browser {
             val rootDirPath = project.rootDir.path
             val projectDirPath = project.projectDir.path
