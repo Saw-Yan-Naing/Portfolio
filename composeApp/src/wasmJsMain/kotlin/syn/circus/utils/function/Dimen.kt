@@ -9,7 +9,5 @@ fun Int.calculateTextSize(screenWidth: Int): Int {
             screenWidth > 1200 -> (this * 1.5).toInt()
             else -> this
         }
-
-    println("dynamic textSize : $textSize")
     return textSize
 }

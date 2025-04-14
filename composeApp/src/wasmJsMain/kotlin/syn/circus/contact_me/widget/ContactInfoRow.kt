@@ -77,7 +77,7 @@ fun ContactInfoRow(
                 text = contactTitle,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = (16).calculateTextSize(screenSize).sp,
+                    fontSize = (14).calculateTextSize(screenSize).sp,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -85,7 +85,7 @@ fun ContactInfoRow(
                 text = contactInfo,
                 style = TextStyle(
                     color = Color.Gray,
-                    fontSize = (16).calculateTextSize(screenSize).sp,
+                    fontSize = (14).calculateTextSize(screenSize).sp,
                 )
             )
         }

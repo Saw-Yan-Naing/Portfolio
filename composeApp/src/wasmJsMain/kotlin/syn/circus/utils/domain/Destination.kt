@@ -1,7 +1,7 @@
 package syn.circus.utils.domain
 
 enum class Destination(private val s: String) {
-    Intro("intro"), About("about"), Projects("projects"), Skills("skills"), Contact("contact");
+    Intro("intro"), About("about"), Projects("projects"), Skills("skills"), Contact("contact"),Footer("footer");
 
     object Body {
 
