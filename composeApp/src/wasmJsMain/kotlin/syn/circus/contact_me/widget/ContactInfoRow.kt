@@ -1,4 +1,4 @@
-package syn.circus.portfolio.presentaion.widget
+package syn.circus.contact_me.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,9 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.layoutId
+import syn.circus.utils.function.calculateTextSize
 
 
 @Composable
@@ -30,12 +34,13 @@ fun ContactInfoRow(
     onClick: () -> Unit,
     contactTitle: String,
     contactInfo: String,
+    screenSize : Int,
 ) {
 
     ConstraintLayout(
         modifier = modifier.clip(RoundedCornerShape(10.dp)).clickable {
             onClick.invoke()
-        }.padding(20.dp)
+        }.padding(20.dp).layoutId(contactTitle.toLowerCase(Locale.current))
     ) {
         val (iconRef, textColumnRef) = createRefs()
 
@@ -72,7 +77,7 @@ fun ContactInfoRow(
                 text = contactTitle,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 14.sp,
+                    fontSize = (14).calculateTextSize(screenSize).sp,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -80,7 +85,7 @@ fun ContactInfoRow(
                 text = contactInfo,
                 style = TextStyle(
                     color = Color.Gray,
-                    fontSize = 13.sp
+                    fontSize = (14).calculateTextSize(screenSize).sp,
                 )
             )
         }

@@ -1,10 +1,11 @@
-package syn.circus.portfolio.presentaion
+package syn.circus.portfolio
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,8 +22,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -32,31 +36,40 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import syn.circus.portfolio.domain.Destination
-import syn.circus.portfolio.domain.function.check
-import syn.circus.portfolio.presentaion.widget.ContactMe
-import syn.circus.portfolio.presentaion.widget.Intro
+import syn.circus.about_me.AboutMe
+import syn.circus.contact_me.ContactMe
+import syn.circus.footer.PortFolioFooter
+import syn.circus.intro.Intro
+import syn.circus.skills.Skills
+import syn.circus.utils.domain.Destination
+import syn.circus.utils.function.check
+
+val LocalScreenWidth = staticCompositionLocalOf {
+    0
+}
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
+
     MaterialTheme {
+
         val screenSize = calculateWindowSizeClass()
         val smallDevice = screenSize.widthSizeClass == WindowWidthSizeClass.Compact
         val appbarList = Destination.Body.getAppBarList()
         val lazyListState = rememberLazyListState()
-        val firstItem = lazyListState.firstVisibleItemIndex
         val scope = rememberCoroutineScope()
 
-        LaunchedEffect(firstItem) {
-            println(appbarList[firstItem].name)
+        LaunchedEffect(lazyListState) {
+            println("Lazy list state -> ${lazyListState.firstVisibleItemIndex}")
         }
-
         Scaffold(
             topBar = {
                 TopAppBar(
+                    modifier = Modifier.shadow(
+                        5.dp,
+                    ),
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.White
                     ),
@@ -97,8 +110,12 @@ fun App() {
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-                                    scope.launch(Dispatchers.Main) {
-                                        lazyListState.animateScrollToItem(appbarList.indexOf(dest))
+                                    scope.launch {
+                                        val index = Destination.entries.indexOf(dest)
+                                        if (index != -1) {
+                                            lazyListState.animateScrollToItem(index)
+                                        }
+                                        println("scroll to $index")
                                     }
                                 },
                                 style = TextStyle(
@@ -114,11 +131,12 @@ fun App() {
             }
         ) {
             Box(
-                modifier = Modifier.padding(top = it.calculateTopPadding()).drawBehind {
-                    drawRect(
-                        color = Color.White
-                    )
-                }
+                modifier = Modifier
+                    .padding(top = it.calculateTopPadding()).drawBehind {
+                        drawRect(
+                            color = Color.White
+                        )
+                    }
             ) {
                 LazyColumn(
                     state = lazyListState,
@@ -134,43 +152,34 @@ fun App() {
                     item(
                         key = Destination.About.name
                     ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
-
-                    item(
-                        key = Destination.Projects.name
-                    ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
+                        AboutMe(
+                            modifier = Modifier
+                                .wrapContentHeight(
+                                    align = Alignment.CenterVertically
+                                )
                         )
                     }
 
                     item(
                         key = Destination.Skills.name
                     ) {
-                        Text(
-                            appbarList[firstItem].name,
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 16.sp
-                            )
+                        Skills(
+                            modifier = Modifier.fillParentMaxWidth().fillParentMaxHeight(.8f)
                         )
                     }
 
                     item(
                         key = Destination.Contact.name
                     ) {
-                        ContactMe()
+                        ContactMe(
+                            modifier = Modifier.fillParentMaxHeight(.8f)
+                        )
+                    }
+
+                    item(
+                        key = Destination.Footer.name
+                    ) {
+                        PortFolioFooter()
                     }
                 }
             }
