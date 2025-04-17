@@ -22,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -42,6 +41,7 @@ import syn.circus.contact_me.ContactMe
 import syn.circus.footer.PortFolioFooter
 import syn.circus.intro.Intro
 import syn.circus.skills.Skills
+import syn.circus.ui_config.navyBlue
 import syn.circus.utils.domain.Destination
 import syn.circus.utils.function.check
 
@@ -82,7 +82,7 @@ fun App() {
                                 }
                                 withStyle(
                                     style = SpanStyle(
-                                        color = Color.Blue, fontSize = 16.sp,
+                                        color = navyBlue, fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold,
                                     )
                                 ) {
@@ -160,7 +160,7 @@ fun App() {
                         key = Destination.Skills.name
                     ) {
                         Skills(
-                            modifier = Modifier.fillParentMaxWidth().fillParentMaxHeight(.8f)
+                            modifier = Modifier.fillParentMaxWidth()
                         )
                     }
 
@@ -168,14 +168,16 @@ fun App() {
                         key = Destination.Contact.name
                     ) {
                         ContactMe(
-                            modifier = Modifier.fillParentMaxHeight(.8f)
+                            modifier = Modifier
                         )
                     }
 
                     item(
                         key = Destination.Footer.name
                     ) {
-                        PortFolioFooter()
+                        PortFolioFooter(
+                            lazyListState = lazyListState
+                        )
                     }
                 }
             }

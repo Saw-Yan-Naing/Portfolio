@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import syn.circus.ui_config.purple
 import syn.circus.utils.function.calculateTextSize
 import syn.circus.utils.function.check
 
@@ -59,7 +60,7 @@ fun LazyItemScope.Intro(
             ) {
                 Text(
                     "Hello, my name is ", style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (14).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Thin
                     ),
@@ -76,7 +77,7 @@ fun LazyItemScope.Intro(
 
                 Text(
                     "I build cross-platform app", style = TextStyle(
-                        color = Color.LightGray,
+                        color = purple,
                         fontSize = (20).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Bold,
                     ), maxLines = 2,
@@ -86,7 +87,7 @@ fun LazyItemScope.Intro(
                 Text(
                     "I'm a application developer specializing in building exceptional digital experiences",
                     style = TextStyle(
-                        color = Color.LightGray,
+                        color = purple.copy(.65f),
                         fontSize = (20).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Bold,
                     ),

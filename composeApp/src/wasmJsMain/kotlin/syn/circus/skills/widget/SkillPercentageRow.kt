@@ -38,6 +38,7 @@ fun SkillPercentageRow(
                 .constrainAs(skill) {
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
+                    end.linkTo(parent.end)
                 },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -47,7 +48,7 @@ fun SkillPercentageRow(
                 skillName,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = (14).calculateTextSize(screenWidth).sp,
+                    fontSize = (12).calculateTextSize(screenWidth).sp,
                     fontWeight = FontWeight.SemiBold
                 ),
                 modifier = Modifier.padding(vertical = 5.dp)
@@ -80,6 +81,4 @@ fun SkillPercentageRow(
             }
         )
     }
-
-
 }
