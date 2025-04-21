@@ -1,18 +1,31 @@
-This is a Kotlin Multiplatform project targeting Web.
+Hello Guys!!
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+This is my simple portfolio using the KMP (Kotlin Multiplatform Mobile) framework.
 
+In this project, I have used KMM to create a simple portfolio app that showcases my projects and
+skills. The app is built using Kotlin and Jetpack Compose for the UI, and it runs on both Android
+and iOS platforms.
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## Developer Guide
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+I use environment variables setup for [buildkonfig](https://github.com/yshrsmz/BuildKonfig) library.
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+SetUp what is said in the main repository ,setUp the buildkonfig and run the following commend in
+terminal to generate the BuildConfig file.
+
+```
+.\gradlew generateBuildKonfig
+```
+
+To run the project, you can use the following commands:
+
+```
+:composeApp:wasmJsBrowserDevelopmentRun -a -t
+:composeApp:wasmJsBrowserProductionRun -a -t
+``` 
+
+The following command is to generate the file which is to be able to use GitHub Page
+
+```:composeApp:wasmJsBrowserProductionWebpack```
+
+and then copy the file to the `docs` folder in the root directory of the project.

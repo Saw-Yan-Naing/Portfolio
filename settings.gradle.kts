@@ -13,6 +13,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("com.codingfeline.buildkonfig") version "0.17.1"
+    }
 }
 
 dependencyResolutionManagement {

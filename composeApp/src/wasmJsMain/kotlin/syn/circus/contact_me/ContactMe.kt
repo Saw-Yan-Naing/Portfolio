@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import syn.circus.contact_me.widget.ContactInfoRow
+import syn.circus.portfolio.BuildKonfig
 import syn.circus.utils.function.calculateTextSize
 
 @Composable
@@ -38,9 +39,9 @@ fun ContactMe(
     }
 
     val contactMeRow = mapOf(
-        "Email" to "syannaing76@gmail.com",
+        "Email" to BuildKonfig.email,
         "Location" to "Thingangyun Township,Yangon,Myanmar",
-        "Phone" to "+959897145711"
+        "Phone" to BuildKonfig.phone
     )
 
     fun getIcon(key: String) = when (key) {

@@ -1,7 +1,6 @@
 package syn.circus.contact_me.widget
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -19,11 +18,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.layoutId
+import syn.circus.ui_config.purple
 import syn.circus.utils.function.calculateTextSize
 
 
@@ -34,13 +35,13 @@ fun ContactInfoRow(
     onClick: () -> Unit,
     contactTitle: String,
     contactInfo: String,
-    screenSize : Int,
+    screenSize: Int,
 ) {
 
     ConstraintLayout(
-        modifier = modifier.clip(RoundedCornerShape(10.dp)).clickable {
-            onClick.invoke()
-        }.padding(20.dp).layoutId(contactTitle.toLowerCase(Locale.current))
+        modifier = modifier.clip(RoundedCornerShape(10.dp))
+//            .clickable { onClick.invoke() }
+            .padding(20.dp).layoutId(contactTitle.toLowerCase(Locale.current))
     ) {
         val (iconRef, textColumnRef) = createRefs()
 
@@ -59,7 +60,7 @@ fun ContactInfoRow(
             Icon(
                 imageVector = icon,
                 contentDescription = "Email Icon",
-                tint = Color(0xFF7C3AED) // Purple color for the icon
+                tint = purple // Purple color for the icon
             )
         }
 
@@ -74,19 +75,24 @@ fun ContactInfoRow(
                 }
         ) {
             Text(
+                modifier = Modifier,
                 text = contactTitle,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = (14).calculateTextSize(screenSize).sp,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold,
+                ),
+                overflow = TextOverflow.Ellipsis,
             )
             Text(
                 text = contactInfo,
                 style = TextStyle(
-                    color = Color.Gray,
+                    color = purple,
                     fontSize = (14).calculateTextSize(screenSize).sp,
-                )
+                    fontWeight = FontWeight.Normal
+                ),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

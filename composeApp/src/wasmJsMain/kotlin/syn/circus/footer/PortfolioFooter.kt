@@ -17,12 +17,15 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +37,11 @@ import org.jetbrains.compose.resources.painterResource
 import portfolio.composeapp.generated.resources.Res
 import portfolio.composeapp.generated.resources.github_icon
 import portfolio.composeapp.generated.resources.linkedin_icon
+import syn.circus.portfolio.BuildKonfig
+import syn.circus.ui_config.navyBlue
+import syn.circus.ui_config.purple
 import syn.circus.utils.domain.Destination
+import syn.circus.utils.function.calculateTextSize
 import syn.circus.utils.function.check
 import syn.circus.utils.ui.HoverAbleIconButton
 
@@ -43,16 +50,22 @@ import syn.circus.utils.ui.HoverAbleIconButton
 fun LazyItemScope.PortFolioFooter(
     modifier: Modifier = Modifier,
     lazyListState: LazyListState,
-    smallDevice: Boolean = false
+    smallDevice: Boolean = false,
 ) {
 
     val appbarList = Destination.Body.getAppBarList()
     val scope = rememberCoroutineScope()
+    val screenWidth by remember {
+        derivedStateOf { mutableStateOf(0) }
+    }
 
     Column(
         modifier = modifier.fillParentMaxWidth()
+            .onGloballyPositioned {
+                screenWidth.value = it.size.width
+            }
             .drawBehind {
-                drawRect(color = Color(0xff9b87f5))
+                drawRect(color = navyBlue)
             }.padding(horizontal = 15.dp, vertical = 10.dp)
     ) {
         FlowRow(
@@ -82,8 +95,8 @@ fun LazyItemScope.PortFolioFooter(
                         }
                     },
                     style = TextStyle(
-                        color = (isHovered check { Color.Blue }) ?: Color.Black,
-                        fontSize = 14.sp,
+                        color = (isHovered check { purple }) ?: Color.White,
+                        fontSize = (12).calculateTextSize(screenWidth.value).sp,
                         fontWeight = (isHovered check { FontWeight.Bold })
                             ?: FontWeight.SemiBold
                     ), textAlign = TextAlign.Center
@@ -94,20 +107,20 @@ fun LazyItemScope.PortFolioFooter(
                 icon = painterResource(Res.drawable.github_icon),
                 contentDescription = "github-icon",
                 modifier = Modifier.size(
-                    width = 20.dp, height = 20.dp
+                    width = (25).calculateTextSize(screenWidth.value).dp, height = (25).calculateTextSize(screenWidth.value).dp
                 ).padding(5.dp)
             ) {
-                window.open("https://github.com/Saw-Yan-Naing")
+                window.open(BuildKonfig.githubUrl)
             }
 
             HoverAbleIconButton(
                 icon = painterResource(Res.drawable.linkedin_icon),
                 contentDescription = "linkedIn-icon",
                 modifier = Modifier.size(
-                    width = 20.dp, height = 20.dp
+                    width = (25).calculateTextSize(screenWidth.value).dp, height = (25).calculateTextSize(screenWidth.value).dp
                 ).padding(5.dp)
             ) {
-                window.open("https://www.linkedin.com/in/saw-yan-naing-469503272/")
+                window.open(BuildKonfig.linkedInUrl)
             }
         }
 

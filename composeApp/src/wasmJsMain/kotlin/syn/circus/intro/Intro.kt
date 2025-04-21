@@ -24,11 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import syn.circus.ui_config.green
+import syn.circus.ui_config.lightGrey
 import syn.circus.ui_config.purple
 import syn.circus.utils.function.calculateTextSize
 import syn.circus.utils.function.check
@@ -52,7 +57,8 @@ fun LazyItemScope.Intro(
 
         Surface(
             modifier = Modifier.fillMaxWidth((smallScreen.not() check { .5f }) ?: 1f)
-                .padding(horizontal = 10.dp, vertical = 5.dp)
+                .padding(horizontal = 10.dp, vertical = 5.dp),
+            color = Color.White
         ) {
             Column(
                 modifier = Modifier,
@@ -91,7 +97,7 @@ fun LazyItemScope.Intro(
                         fontSize = (20).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Bold,
                     ),
-                    maxLines = 2,
+                    maxLines = 3,
                     modifier = Modifier.padding(vertical = 5.dp)
                 )
             }
@@ -105,7 +111,7 @@ fun LazyItemScope.Intro(
             Card(
                 shape = RoundedCornerShape(10.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.Gray,
+                    containerColor = lightGrey,
                 ),
                 elevation = CardDefaults.cardElevation(10.dp),
                 modifier = Modifier
@@ -117,18 +123,78 @@ fun LazyItemScope.Intro(
                 Box(modifier = Modifier.fillMaxSize()) {
                     Surface(
                         modifier = Modifier.align(Alignment.Center)
-                            .padding(20.dp),
+                            .padding(horizontal = 20.dp, vertical = 30.dp),
                         shape = RoundedCornerShape(10.dp),
                         color = Color.White.copy(alpha = .5f),
                     ) {
                         Text(
-                            """
-                      final developer = {
-                      name : "Saw Yan Naing",
-                      skills : [Jetpack compose, KMP, Flutter, Dart , Kotlin],
-                      loves : "Developing Application" 
-                      };
-                    """.trimIndent(),
+                            buildAnnotatedString {
+                                DoubleTextSpan(
+                                    firstText = "final ",
+                                    secondText = "developer = { \n",
+                                    firstTextStyle = SpanStyle(
+                                        color = purple,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp,
+                                    ),
+                                    secondTextStyle = SpanStyle(
+                                        color = Color.Black,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    )
+                                )
+
+                                DoubleTextSpan(
+                                    firstText = "name : ",
+                                    secondText = "\"Saw Yan Naing\",\n",
+                                    firstTextStyle = SpanStyle(
+                                        color = Color.Black,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp,
+                                    ),
+                                    secondTextStyle = SpanStyle(
+                                        color = green.copy(.7f),
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    )
+                                )
+
+                                ListTextSpan(
+                                    firstText = "skills : ",
+                                    list = listOf(
+                                        "Jetpack compose",
+                                        "KMP",
+                                        "Flutter",
+                                        "Dart",
+                                        "Kotlin"
+                                    ),
+                                    firstTextStyle = SpanStyle(
+                                        color = Color.Black,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    ),
+                                    listTextStyle = SpanStyle(
+                                        color = green.copy(.7f),
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    ),
+                                )
+                                DoubleTextSpan(
+                                    firstText = "loves : ",
+                                    secondText = "Coding , \n ",
+                                    firstTextStyle = SpanStyle(
+                                        color = Color.Black,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp,
+                                    ),
+                                    secondTextStyle = SpanStyle(
+                                        color = green.copy(.7f),
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    )
+                                )
+
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.Black,
+                                        fontSize = (12).calculateTextSize(screenWidth.value).sp
+                                    )
+                                ) {
+                                    append("};")
+                                }
+                            },
                             modifier = Modifier.wrapContentSize(align = Alignment.Center).padding(
                                 horizontal = 20.dp, vertical = 10.dp
                             ),

@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import syn.circus.about_me.widget.PortFolioImage
+import syn.circus.ui_config.lightGrey
 import syn.circus.utils.function.calculateTextSize
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -65,7 +66,7 @@ I studied Mathematics at Yangon University, but due to the crisis, I had to step
 Outside of coding, I enjoy staying active by playing sports like basketball, volleyball, and badminton. When I'm indoors, I like to relax by reading manga and watching anime — it helps me unwind and stay inspired.
             """.trimIndent(),
                 style = TextStyle(
-                    color = Color.Black.copy(alpha = .5f),
+                    color = lightGrey,
                     fontSize = (16).calculateTextSize(screenWidth = screenWidth.value).sp,
                     fontWeight = FontWeight.Thin
                 ),

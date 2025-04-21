@@ -41,7 +41,7 @@ import syn.circus.contact_me.ContactMe
 import syn.circus.footer.PortFolioFooter
 import syn.circus.intro.Intro
 import syn.circus.skills.Skills
-import syn.circus.ui_config.navyBlue
+import syn.circus.ui_config.purple
 import syn.circus.utils.domain.Destination
 import syn.circus.utils.function.check
 
@@ -82,7 +82,7 @@ fun App() {
                                 }
                                 withStyle(
                                     style = SpanStyle(
-                                        color = navyBlue, fontSize = 16.sp,
+                                        color = purple, fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold,
                                     )
                                 ) {
@@ -142,6 +142,7 @@ fun App() {
                     ) {
                         Intro(
                             smallScreen = smallDevice,
+                            modifier = Modifier.fillParentMaxHeight()
                         )
                     }
 
@@ -160,7 +161,8 @@ fun App() {
                         key = Destination.Skills.name
                     ) {
                         Skills(
-                            modifier = Modifier.fillParentMaxWidth()
+                            modifier = ((smallDevice) check { Modifier.fillParentMaxWidth() })
+                                ?: Modifier.fillParentMaxHeight(.7f)
                         )
                     }
 
@@ -168,7 +170,7 @@ fun App() {
                         key = Destination.Contact.name
                     ) {
                         ContactMe(
-                            modifier = Modifier
+                            modifier = Modifier.fillParentMaxHeight()
                         )
                     }
 

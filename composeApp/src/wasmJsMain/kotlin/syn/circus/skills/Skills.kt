@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import syn.circus.skills.widget.SkillPercentageRow
+import syn.circus.ui_config.purple
 import syn.circus.utils.function.calculateTextSize
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -36,7 +38,8 @@ fun Skills(
     }
 
     Column(
-        modifier = modifier.onGloballyPositioned {
+        modifier = modifier
+            .onGloballyPositioned {
             screenWidth.value = it.size.width
         }.padding(
             horizontal = (10).calculateTextSize(screenWidth.value).dp,
@@ -56,11 +59,14 @@ fun Skills(
         )
 
         FlowRow(
-            modifier = Modifier.fillMaxWidth().padding(5.dp).padding(bottom = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxWidth().padding(5.dp).padding(bottom = 10.dp)
+                .wrapContentHeight(
+                    align = Alignment.CenterVertically
+                ),
+            horizontalArrangement = Arrangement.Start
         ) {
             Column(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.weight(1f).padding(5.dp),
                 horizontalAlignment = Alignment.Start
             ) {
 
@@ -78,7 +84,7 @@ fun Skills(
                     "• Kotlin",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -88,16 +94,15 @@ fun Skills(
                     "• Dart",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
-
             }
 
             Column(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.weight(1f).padding(5.dp),
                 horizontalAlignment = Alignment.Start
             ) {
 
@@ -115,9 +120,9 @@ fun Skills(
                     "• Android (Jetpack Compose)",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
 
@@ -125,15 +130,15 @@ fun Skills(
                     "• Flutter",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
             }
 
             Column(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.weight(1f).padding(5.dp),
                 horizontalAlignment = Alignment.Start
             ) {
 
@@ -151,9 +156,9 @@ fun Skills(
                     "• Git",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
 
@@ -161,9 +166,9 @@ fun Skills(
                     "• Android Studio",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
 
@@ -171,9 +176,9 @@ fun Skills(
                     "• IntelliJ",
                     modifier = Modifier.padding(5.dp),
                     style = TextStyle(
-                        color = Color.Blue,
+                        color = purple,
                         fontSize = (16).calculateTextSize(screenWidth.value).sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
                 )
             }
@@ -195,15 +200,14 @@ fun Skills(
             screenWidth = screenWidth.value,
             skillName = "Android & KMP",
             skillPercent = 65.0,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp)
         )
 
         SkillPercentageRow(
             screenWidth = screenWidth.value,
             skillName = "Mobile Application Development",
             skillPercent = 65.0,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 5.dp )
         )
-
     }
 }

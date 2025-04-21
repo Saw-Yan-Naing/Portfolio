@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import syn.circus.ui_config.purple
 import syn.circus.utils.function.calculateTextSize
 
 @Composable
@@ -39,7 +40,9 @@ fun SkillPercentageRow(
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
-                },
+                }.padding(
+                    vertical = 5.dp
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -47,9 +50,9 @@ fun SkillPercentageRow(
             Text(
                 skillName,
                 style = TextStyle(
-                    color = Color.Black,
+                    color = purple,
                     fontSize = (12).calculateTextSize(screenWidth).sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Thin
                 ),
                 modifier = Modifier.padding(vertical = 5.dp)
             )
@@ -57,8 +60,9 @@ fun SkillPercentageRow(
             Text(
                 percentageText,
                 style = TextStyle(
-                    color = Color.Black,
-                    fontSize = (14).calculateTextSize(screenWidth).sp,
+                    color = purple,
+                    fontSize = (12).calculateTextSize(screenWidth).sp,
+                    fontWeight = FontWeight.Thin
                 )
             )
         }
@@ -73,9 +77,9 @@ fun SkillPercentageRow(
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }.padding(5.dp),
+                },
             trackColor = Color.LightGray,
-            color = Color.Blue,
+            color = purple,
             progress = {
                 (skillPercent.toFloat()) /100f
             }

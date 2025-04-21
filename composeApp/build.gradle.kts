@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -5,12 +6,13 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName = "composeApp"
 //        compilerOptions {
 //            freeCompilerArgs.add("-Xwasm-attach-js-exception")
 //        }
@@ -30,9 +32,9 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     sourceSets {
-        
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -52,4 +54,13 @@ kotlin {
     }
 }
 
-
+buildkonfig {
+    packageName = "syn.circus.portfolio"
+    defaultConfigs {
+        buildConfigField(STRING, "githubUrl", project.findProperty("githubUrl") as String? ?: "")
+        buildConfigField(STRING, "linkedInUrl", project.findProperty("linkedInUrl") as String? ?: "")
+        buildConfigField(STRING, "email", project.findProperty("email") as String? ?: "")
+        buildConfigField(STRING, "address", project.findProperty("address") as String? ?: "")
+        buildConfigField(STRING, "phone", project.findProperty("phone") as String? ?: "")
+    }
+}
